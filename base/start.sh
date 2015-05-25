@@ -13,7 +13,7 @@
 
 CONTAINER_NAME="jbpm-workbench"
 IMAGE_NAME="jboss/jbpm-workbench"
-IMAGE_TAG="6.2.0"
+IMAGE_TAG="6.2.0.Final"
 
 function usage
 {
