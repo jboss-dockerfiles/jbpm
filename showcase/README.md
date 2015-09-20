@@ -8,90 +8,45 @@ Table of contents
 
 * Introduction
 * Usage
-* GIT internal repository access
 * Users and roles
 * Logging
+* GIT internal repository access
 * Experimenting
 * Notes
+* Release notes
 
 Introduction
 ------------
 
 The image contains:               
 
-* JBoss Wildfly 8.1.0.Final             
-* jBPM Workbench 6.2.0.Final            
-* jBPM Dashbuilder 6.2.0.Final           
+* JBoss Wildfly 8.2.0.Final
+* jBPM Workbench 6.3.0.Final
+* jBPM Dashbuilder 6.3.0.Final
 
-This image inherits from `jboss/jbpm-workbench:6.2.0.Final` and provides some additional configurations:     
+This image inherits from `jboss/jbpm-workbench:6.3.0.Final` and provides some additional configurations:
 
-* Some KIE examples            
-* Single Sign On configuration for jBPM Workbench and jBPM Dashbuilder                   
 * Default users and roles                                                       
+* Some examples            
+* Single Sign On configuration for jBPM Workbench and jBPM Dashbuilder                   
 
-This is a **ready to run Docker image for jBPM Workbench**. Just run it and try our workbench!                       
+This is a **ready to run Docker image for jBPM Workbench**. Just run it and try the jBPM Workbench!                       
 
 Usage
 -----
 
 To run a container:
     
-    docker run -P -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.2.0.Final
+    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.3.0.Final
 
-Once container and web applications started, you can navigate to it using one of the users described in section `Users and roles`              
+Once container and web applications started, you can navigate to it using one of the users described in section `Users and roles`, using the following URL:             
 
-To find out the application URL:               
+        http://localhost:8080/jbpm-console
 
-**Using local host binding port**
+Please note that in this image the examples and demos are enabled by default, so you **need external connection to [GitHub](https://github.com/)**. 
+If your container runs without internet connection, please set `KIE_DEMO` the environment variable to value `false` as:                             
 
-If you have run the container using `-P` flag in the `docker` command, the port `8080` has been bind to an available port on your host.                 
-
-So you have to discover your host's bind port, that can be done by running the command:          
-
-    docker ps -a
-
-Example of the above command response:                   
-
-    CONTAINER ID        IMAGE                                       COMMAND                CREATED              STATUS              PORTS                                              NAMES
-    2a55fbe771c0        jboss/jbpm-workbench-showcase:6.2.0.Final   ./standalone.sh -b 0   About a minute ago   Up About a minute   0.0.0.0:49159->8080/tcp, 0.0.0.0:49160->9990/tcp   jbpm-workbench-showcase      
-
-As you can see, the bind port to use for container's port `8080` is `49159`, so you can navigate to:
-
-    http://localhost:49159/jbpm-console
-
-**No bind port for localhost**
-
-In case you run the container without using `-P` flag in the `docker` command, you can navigate to the application at:
-
-    http://<container_ip_address>:8080/jbpm-console
-    
-You can discover the IP address of your running container by:
-
-    docker inspect --format '{{ .NetworkSettings.IPAddress }}' jbpm-workbench-showcase
-
-GIT internal repository access
-------------------------------
-
-You can clone the GIT internal repositories that jBPM Workbench Showcase provides, as well as any ones created by application users.             
-
-By default, the protocol used for cloning a GIT repository from the application is `SSH` at port `8001`.            
- 
-    git clone ssh://admin@localhost:8001/jbpm-playground
-    
-For cloning a repository located inside the jBPM Workbench Showcase docker container, you have to discover your host's port bind for the internal port `8001`, by running the `ps` docker command:                   
-
-    docker ps -a
-
-Example of the above command response:                   
-
-    CONTAINER ID        IMAGE                                       COMMAND                CREATED              STATUS              PORTS                                                                                   NAMES
-    2a55fbe771c0        jboss/jbpm-workbench-showcase:6.2.0.Final   ./standalone.sh -b 0   About a minute ago   Up About a minute   0.0.0.0:49159->8080/tcp, 0.0.0.0:49160->9990/tcp, 0.0.0.0:49161->8001/tcp   jbpm-workbench-showcase  
-
-As you can see, the bind port to use for container's port `8001` is `49161`, so you can do the clone as:
-
-    git clone ssh://admin@localhost:49161/jbpm-playground
-
-NOTE: Users and password for ssh access are the same that for the web application users defined at the realm files.      
+    docker run -p 8080:8080 -p 8001:8001 -e KIE_DEMO=false -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.3.0.Final
 
 Users and roles
 ----------------
@@ -128,26 +83,64 @@ The jBPM Workbench web application logs can be found inside the container at pat
     sudo nsenter -t $(docker inspect --format '{{ .State.Pid }}' $(docker ps -lq)) -m -u -i -n -p -w
     -bash-4.2# tail -f /opt/jboss/wildfly/standalone/log/server.log
 
+GIT internal repository access
+------------------------------
+
+The workbench stores all the project artifacts in an internal GIT repository. By default, the protocol available for accessing the GIT repository is `SSH` at port `8001`.            
+
+This showcase image provides some examples at the `uf-playground` repository, that you can clone it by running:                 
+ 
+    git clone ssh://admin@localhost:8001/uf-playground
+
+By default, the GIT repository is created when the application starts for first time at `$WORKING_DIR/.niogit`, considering `$WORKING_DIR` as the current directory where the application server is started.            
+
+You can specify a custom repository location by setting the following Java system property to your target file system directory:                   
+ 
+        -Dorg.uberfire.nio.git.dir=/home/youruser/some/path
+
+NOTE: This directory can be shared with your docker host and with another containers using shared volumes when running the container, if you need so.            
+
+If necessary you can make GIT repositories available from outside localhost using the following Java system property:                 
+ 
+        -org.uberfire.nio.git.ssh.host=0.0.0.0
+        
+You can set this Java system properties permanent by adding the following lines in your `standalone-full.xml` file as:                
+ 
+        <system-properties>
+          <!-- Custom repository location. -->
+          <property name="org.uberfire.nio.git.dir" value="/home/youruser/some/path"/>
+          <!-- Make GIT repositories available from outside localhost. -->
+          <property name="org.uberfire.nio.git.ssh.host" value="0.0.0.0"/>
+        </system-properties>
+
+    
+NOTE: Users and password for ssh access are the same that for the web application users defined at the realm files.   
+
 Experimenting
 -------------
 
 To spin up a shell in one of the containers try:
 
-    docker run -t -i -P jboss/jbpm-workbench-showcase:6.2.0.Final /bin/bash
+    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-workbench-showcase:6.3.0.Final /bin/bash
 
 You can then noodle around the container and run stuff & look at files etc.
-
-You can run the jBPM Workbench web application by running command:
-
-    /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 --server-config=standalone-full-jbpm.xml
-
 
 Notes
 -----
 
-* jBPM Workbench version is `6.2.0.Final`               
-* jBPM Workbench requires running JBoss Wildfly using `full` profile                        
+* The context path for jBPM Workbench web application is `jbpm-console` and the context path for jBPM Dashbuilder web application is `dashbuilder`                  
+* jBPM Workbench version is `6.3.0.Final`
+* jBPM Workbench requires running JBoss Wildfly using the `full` server profile       
+* Internet connection required if using examples and demos (active by default)            
 * No support for clustering                
 * Use of embedded H2 database server by default               
 * No support for Wildfly domain mode, just standalone mode                    
-* The context path for jBPM Workbench web application is `jbpm-console` and the context path for jBPM Dashbuilder web application is `dashbuilder`                  
+* This image is not intended to be run on cloud environments such as RedHat OpenShift or Amazon EC2, as it does not meet all the requirements.                      
+* Please give us your feedback or report a issue at [Drools Setup](https://groups.google.com/forum/#!forum/drools-setup) or [Drools Usage](https://groups.google.com/forum/#!forum/drools-usage) Google groups.              
+
+Release notes
+--------------
+
+**6.3.0.Final**
+
+* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `6.3.0.Final`                     
