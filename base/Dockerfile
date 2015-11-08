@@ -15,9 +15,10 @@ ENV KIE_VERSION 6.3.0.Final
 ENV KIE_CLASSIFIER wildfly8
 ENV KIE_CONTEXT_PATH jbpm-console
 ENV DASHBUILDER_CONTEXT_PATH dashbuilder
+ENV JAVA_OPTS -XX:MaxPermSize=256m -Xms256m -Xmx512m
 # Do NOT use demo neither examples by default in this image (no internet connection required).
 ENV KIE_DEMO false
-ENV JAVA_OPTS -XX:MaxPermSize=256m -Xms256m -Xmx512m
+ENV KIE_SERVER_PROFILE standalone-full
 
 ####### JBPM-WB ############
 RUN curl -o $HOME/$KIE_CONTEXT_PATH.war $KIE_REPOSITORY/org/kie/kie-wb-distribution-wars/$KIE_VERSION/kie-wb-distribution-wars-$KIE_VERSION-$KIE_CLASSIFIER.war && \
@@ -36,10 +37,12 @@ rm -rf $HOME/$DASHBUILDER_CONTEXT_PATH.war
 RUN mkdir -p $HOME/.m2/repository/org/guvnor/guvnor-asset-mgmt-project/$KIE_VERSION && \
 curl -o $HOME/.m2/repository/org/guvnor/guvnor-asset-mgmt-project/$KIE_VERSION/guvnor-asset-mgmt-project-$KIE_VERSION.jar $KIE_REPOSITORY/org/guvnor/guvnor-asset-mgmt-project/$KIE_VERSION/guvnor-asset-mgmt-project-$KIE_VERSION.jar
 
-####### INTER WAR DEPENDENCY DESCRIPTOR FOR WILDFLY8 ############
+####### CONFIGURATION ############
 USER root
 ADD etc/jboss-all.xml $JBOSS_HOME/standalone/deployments/$DASHBUILDER_CONTEXT_PATH.war/META-INF/jboss-all.xml
+ADD etc/start_jbpm-wb.sh $JBOSS_HOME/bin/start_jbpm-wb.sh
 RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/*
+RUN chown jboss:jboss $JBOSS_HOME/bin/start_jbpm-wb.sh
 
 ####### CUSTOM JBOSS USER ############
 # Switchback to jboss user
@@ -50,4 +53,4 @@ EXPOSE 8001
 
 ####### RUNNING JBPM-WB ############
 WORKDIR $JBOSS_HOME/bin/
-CMD ["./standalone.sh", "-b", "$JBOSS_BIND_ADDRESS", "-Dorg.kie.demo=$KIE_DEMO", "-Dorg.kie.example=$KIE_DEMO", "-c", "standalone-full.xml"]
+CMD ["./start_jbpm-wb.sh"]
