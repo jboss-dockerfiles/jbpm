@@ -1,41 +1,48 @@
 ###########################################################################
-# Dockerfile image that provides JBoss jBPM Workbench 6.2.0.Final
-#
-# The web application binaries are downloaded from JBoss Nexus Repository.
-#
-# The Docker image generated name/tag is "jboss/jbpm-workbench:6.2.0.Final"
+# Dockerfile that provides the image for JBoss jBPM Workbench 6.3.0.Final
 ###########################################################################
 
 ####### BASE ############
-FROM jboss/wildfly:8.1.0.Final
+FROM jboss/wildfly:8.2.0.Final
 
 ####### MAINTAINER ############
 MAINTAINER "Roger Martinez" "romartin@redhat.com"
 
 ####### ENVIRONMENT ############
-ENV KIE_REPOSITORY https://repository.jboss.org/nexus/content/groups/public-jboss/
-ENV JBPM_VERSION 6.2.0.Final
-ENV JBPM_CLASSIFIER wildfly8
-ENV JBPM_CONTEXT_PATH jbpm-console
+ENV JBOSS_BIND_ADDRESS 0.0.0.0
+ENV KIE_REPOSITORY https://repository.jboss.org/nexus/content/groups/public-jboss
+ENV KIE_VERSION 6.3.0.Final
+ENV KIE_CLASSIFIER wildfly8
+ENV KIE_CONTEXT_PATH jbpm-console
 ENV DASHBUILDER_CONTEXT_PATH dashbuilder
 ENV JAVA_OPTS -XX:MaxPermSize=256m -Xms256m -Xmx512m
-USER root
+# Do NOT use demo neither examples by default in this image (no internet connection required).
+ENV KIE_DEMO false
+ENV KIE_SERVER_PROFILE standalone-full
 
 ####### JBPM-WB ############
-RUN curl -o /opt/jboss/$JBPM_CONTEXT_PATH.war $KIE_REPOSITORY/org/kie/kie-wb-distribution-wars/$JBPM_VERSION/kie-wb-distribution-wars-$JBPM_VERSION-$JBPM_CLASSIFIER.war && \ 
-unzip -q /opt/jboss/$JBPM_CONTEXT_PATH.war -d $JBOSS_HOME/standalone/deployments/$JBPM_CONTEXT_PATH.war &&  \ 
-touch $JBOSS_HOME/standalone/deployments/$JBPM_CONTEXT_PATH.war.dodeploy &&  \ 
-rm -rf /opt/jboss/$JBPM_CONTEXT_PATH.war
+RUN curl -o $HOME/$KIE_CONTEXT_PATH.war $KIE_REPOSITORY/org/kie/kie-wb-distribution-wars/$KIE_VERSION/kie-wb-distribution-wars-$KIE_VERSION-$KIE_CLASSIFIER.war && \
+unzip -q $HOME/$KIE_CONTEXT_PATH.war -d $JBOSS_HOME/standalone/deployments/$KIE_CONTEXT_PATH.war &&  \
+touch $JBOSS_HOME/standalone/deployments/$KIE_CONTEXT_PATH.war.dodeploy &&  \ 
+rm -rf $HOME/$KIE_CONTEXT_PATH.war
 
 ####### JBPM DASHBUILDER ############
-RUN curl -o /opt/jboss/$DASHBUILDER_CONTEXT_PATH.war $KIE_REPOSITORY/org/jbpm/dashboard/jbpm-dashboard-distributions/$JBPM_VERSION/jbpm-dashboard-distributions-$JBPM_VERSION-$JBPM_CLASSIFIER.war && \ 
-unzip -q /opt/jboss/$DASHBUILDER_CONTEXT_PATH.war -d $JBOSS_HOME/standalone/deployments/$DASHBUILDER_CONTEXT_PATH.war &&  \ 
+RUN curl -o $HOME/$DASHBUILDER_CONTEXT_PATH.war $KIE_REPOSITORY/org/jbpm/dashboard/jbpm-dashboard-distributions/$KIE_VERSION/jbpm-dashboard-distributions-$KIE_VERSION-$KIE_CLASSIFIER.war && \
+unzip -q $HOME/$DASHBUILDER_CONTEXT_PATH.war -d $JBOSS_HOME/standalone/deployments/$DASHBUILDER_CONTEXT_PATH.war &&  \
 touch $JBOSS_HOME/standalone/deployments/$DASHBUILDER_CONTEXT_PATH.war.dodeploy &&  \ 
-rm -rf /opt/jboss/$DASHBUILDER_CONTEXT_PATH.war
+rm -rf $HOME/$DASHBUILDER_CONTEXT_PATH.war
 
-####### INTER WAR DEPENDENCY DESCRIPTOR FOR WILDFLY8 ############
+####### MVN REPO ############
+# https://bugzilla.redhat.com/show_bug.cgi?id=1263738
+RUN mkdir -p $HOME/.m2/repository/org/guvnor/guvnor-asset-mgmt-project/$KIE_VERSION && \
+curl -o $HOME/.m2/repository/org/guvnor/guvnor-asset-mgmt-project/$KIE_VERSION/guvnor-asset-mgmt-project-$KIE_VERSION.jar $KIE_REPOSITORY/org/guvnor/guvnor-asset-mgmt-project/$KIE_VERSION/guvnor-asset-mgmt-project-$KIE_VERSION.jar
+
+####### CONFIGURATION ############
+USER root
 ADD etc/jboss-all.xml $JBOSS_HOME/standalone/deployments/$DASHBUILDER_CONTEXT_PATH.war/META-INF/jboss-all.xml
+ADD etc/start_jbpm-wb.sh $JBOSS_HOME/bin/start_jbpm-wb.sh
 RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/*
+RUN chown jboss:jboss $JBOSS_HOME/bin/start_jbpm-wb.sh
 
 ####### CUSTOM JBOSS USER ############
 # Switchback to jboss user
@@ -46,4 +53,4 @@ EXPOSE 8001
 
 ####### RUNNING JBPM-WB ############
 WORKDIR $JBOSS_HOME/bin/
-CMD ["./standalone.sh", "-b", "0.0.0.0", "--server-config=standalone-full.xml"]
+CMD ["./start_jbpm-wb.sh"]
