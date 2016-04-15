@@ -22,19 +22,19 @@ Introduction
 The image contains:  
              
 * JBoss Wildfly 8.2.0.Final
-* jBPM Workbench 6.3.0.Final
-* jBPM Dashbuilder 6.3.0.Final
+* jBPM Workbench 6.4.0.Final
+* jBPM Dashbuilder 6.4.0.Final
 
 This image provides the jBPM Workbench. It's intended to be extended so you can add your custom configurations.                 
 
-If you don't want to extend this image and you just want to try jBPM Workbench take a look at the `jboss/jbpm-workbench-showcase:6.3.0.Final` Docker image, it contains some default configurations.              
+If you don't want to extend this image and you just want to try jBPM Workbench take a look at the `jboss/jbpm-workbench-showcase:6.4.0.Final` Docker image, it contains some default configurations.              
 
 Usage
 -----
 
 To run a container:
     
-    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-workbench jboss/jbpm-workbench:6.3.0.Final
+    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-workbench jboss/jbpm-workbench:6.4.0.Final
 
 Once container and web applications started, you can navigate into the jBPM Workbench at:
 
@@ -47,7 +47,7 @@ The application have no users or roles configured, so you cannot not access it b
 
 In order to use it, at least you have to create an application user in JBoss Wildfly with role `admin`.                  
 
-If you are looking for a jBPM Workbench image that does not require to add custom configurations, try our `jboss/jbpm-workbench-showcase:6.3.0.Final` Docker image.
+If you are looking for a jBPM Workbench image that does not require to add custom configurations, try our `jboss/jbpm-workbench-showcase:6.4.0.Final` Docker image.
 
 If you want to create your custom configuration and users, role, etc, you can take a look at section `Extending this image`                  
 
@@ -110,7 +110,7 @@ You can extend this image and add your custom layers in order to add custom conf
  
 In order to extend this image, your Dockerfile must inherit from:
 
-    FROM jboss/jbpm-workbench:6.3.0.Final
+    FROM jboss/jbpm-workbench:6.4.0.Final
     
 **Configuring Wildfly**
 
@@ -185,14 +185,14 @@ These are the steps to create your custom users and roles by using realm files i
           </authentication>
         </security-domain>
 
-You can find an example by looking at the Dockerfile for `jboss/jbpm-workbench-showcase:6.3.0.Final` image.
+You can find an example by looking at the Dockerfile for `jboss/jbpm-workbench-showcase:6.4.0.Final` image.
 
 Experimenting
 -------------
 
 To spin up a shell in one of the containers try:
 
-    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-workbench:6.3.0.Final /bin/bash
+    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-workbench:6.4.0.Final /bin/bash
 
 You can then noodle around the container and run stuff & look at files etc.
 
@@ -200,7 +200,7 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console` and the context path for jBPM Dashbuilder web application is `dashbuilder`                  
-* jBPM Workbench version is `6.3.0.Final`
+* jBPM Workbench version is `6.4.0.Final`
 * jBPM Workbench requires running JBoss Wildfly using the `full` server profile
 * Examples and demos disabled by default (no internet connection required at startup)               
 * No users or roles are configured by default               
@@ -213,10 +213,10 @@ Notes
 Release notes
 --------------
 
-**6.3.0.Final**
+**6.4.0.Final**
 
 * Use Wildfly `8.2.0.Final`             
-* Upgrade app to version `6.3.0.Final`         
+* Upgrade app to version `6.4.0.Final`         
 * Disabled examples (no internet connection required at startup)               
 * Added `KIE_DEMO` environment variable to disable examples and demos if host do not have internet connection             
-* Added missing initial artifact `org.guvnor:guvnor-asset-mgmt-project:6.3.0.Final:jar` into the M2 repository. See [BZ-1263738](https://bugzilla.redhat.com/show_bug.cgi?id=1263738)                   
+* Added missing initial artifact `org.guvnor:guvnor-asset-mgmt-project:6.4.0.Final:jar` into the M2 repository. See [BZ-1263738](https://bugzilla.redhat.com/show_bug.cgi?id=1263738)                   

@@ -21,10 +21,10 @@ Introduction
 The image contains:               
 
 * JBoss Wildfly 8.2.0.Final
-* jBPM Workbench 6.3.0.Final
-* jBPM Dashbuilder 6.3.0.Final
+* jBPM Workbench 6.4.0.Final
+* jBPM Dashbuilder 6.4.0.Final
 
-This image inherits from `jboss/jbpm-workbench:6.3.0.Final` and provides some additional configurations:
+This image inherits from `jboss/jbpm-workbench:6.4.0.Final` and provides some additional configurations:
 
 * Default users and roles                                                       
 * Some examples            
@@ -37,7 +37,7 @@ Usage
 
 To run a container:
     
-    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.3.0.Final
+    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.4.0.Final
 
 Once container and web applications started, you can navigate to it using one of the users described in section `Users and roles`, using the following URL:             
 
@@ -46,7 +46,7 @@ Once container and web applications started, you can navigate to it using one of
 Please note that in this image the examples and demos are enabled by default, so you **need external connection to [GitHub](https://github.com/)**. 
 If your container runs without internet connection, please set `KIE_DEMO` the environment variable to value `false` as:                             
 
-    docker run -p 8080:8080 -p 8001:8001 -e KIE_DEMO=false -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.3.0.Final
+    docker run -p 8080:8080 -p 8001:8001 -e KIE_DEMO=false -d --name jbpm-workbench jboss/jbpm-workbench-showcase:6.4.0.Final
 
 Users and roles
 ----------------
@@ -121,7 +121,7 @@ Experimenting
 
 To spin up a shell in one of the containers try:
 
-    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-workbench-showcase:6.3.0.Final /bin/bash
+    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-workbench-showcase:6.4.0.Final /bin/bash
 
 You can then noodle around the container and run stuff & look at files etc.
 
@@ -129,7 +129,7 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console` and the context path for jBPM Dashbuilder web application is `dashbuilder`                  
-* jBPM Workbench version is `6.3.0.Final`
+* jBPM Workbench version is `6.4.0.Final`
 * jBPM Workbench requires running JBoss Wildfly using the `full` server profile       
 * Internet connection required if using examples and demos (active by default)            
 * No support for clustering                
@@ -141,6 +141,6 @@ Notes
 Release notes
 --------------
 
-**6.3.0.Final**
+**6.4.0.Final**
 
-* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `6.3.0.Final`                     
+* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `6.4.0.Final`                     
