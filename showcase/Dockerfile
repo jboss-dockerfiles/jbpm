@@ -3,7 +3,7 @@
 #################################################################################
 
 ####### BASE ############
-FROM jboss/jbpm-workbench:6.4.0.Final
+FROM jboss/jbpm-workbench:latest
 
 ####### MAINTAINER ############
 MAINTAINER "Michael Biarnes Kiefer" "mbiarnes@redhat.com"
