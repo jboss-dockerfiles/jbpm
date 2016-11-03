@@ -21,9 +21,9 @@ Introduction
 
 The image contains:               
 
-* JBoss Wildfly 8.2.0.Final
-* jBPM Workbench 6.4.0.Final
-* jBPM Dashbuilder 6.4.0.Final
+* JBoss Wildfly 10.0.0.Final
+* jBPM Workbench 6.5.0.Final
+* jBPM Dashbuilder 6.5.0.Final
 
 This image inherits from `jboss/jbpm-workbench:latest` and provides some additional configurations:
 
@@ -187,7 +187,7 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console` and the context path for jBPM Dashbuilder web application is `dashbuilder`                  
-* jBPM Workbench version is `6.4.0.Final`
+* jBPM Workbench version is `6.5.0.Final`
 * jBPM Workbench requires running JBoss Wildfly using the `full` server profile       
 * Internet connection required if using examples and demos (active by default)            
 * No support for clustering                
@@ -199,6 +199,6 @@ Notes
 Release notes
 --------------
 
-**6.4.0.Final**
+**6.5.0.Final**
 
-* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `6.4.0.Final`                     
+* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `6.5.0.Final`                     

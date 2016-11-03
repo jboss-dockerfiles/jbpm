@@ -1,9 +1,9 @@
 ###########################################################################
-# Dockerfile that provides the image for JBoss jBPM Workbench 6.4.0.Final
+# Dockerfile that provides the image for JBoss jBPM Workbench 6.5.0.Final
 ###########################################################################
 
 ####### BASE ############
-FROM jboss/wildfly:8.2.0.Final
+FROM jboss/wildfly:10.0.0.Final
 
 ####### MAINTAINER ############
 MAINTAINER "Michael Biarnes Kiefer" "mbiarnes@redhat.com"
@@ -11,11 +11,11 @@ MAINTAINER "Michael Biarnes Kiefer" "mbiarnes@redhat.com"
 ####### ENVIRONMENT ############
 ENV JBOSS_BIND_ADDRESS 0.0.0.0
 ENV KIE_REPOSITORY https://repository.jboss.org/nexus/content/groups/public-jboss
-ENV KIE_VERSION 6.4.0.Final
-ENV KIE_CLASSIFIER wildfly8
+ENV KIE_VERSION 6.5.0.Final
+ENV KIE_CLASSIFIER wildfly10
 ENV KIE_CONTEXT_PATH jbpm-console
 ENV DASHBUILDER_CONTEXT_PATH dashbuilder
-ENV JAVA_OPTS -XX:MaxPermSize=256m -Xms256m -Xmx512m
+ENV JAVA_OPTS -Xms256m -Xmx512m
 # Do NOT use demo neither examples by default in this image (no internet connection required).
 ENV KIE_DEMO false
 ENV KIE_SERVER_PROFILE standalone-full
