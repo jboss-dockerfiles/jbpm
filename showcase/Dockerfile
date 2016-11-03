@@ -1,9 +1,9 @@
 #################################################################################
-# Dockerfile that provides the image for JBoss jBPM Workbench 6.4.0.Final Showcase
+# Dockerfile that provides the image for JBoss jBPM Workbench 6.5.0.Final Showcase
 #################################################################################
 
 ####### BASE ############
-FROM jboss/jbpm-workbench:6.4.0.Final-1
+FROM jboss/jbpm-workbench:6.5.0.Final
 
 ####### MAINTAINER ############
 MAINTAINER "Michael Biarnes Kiefer" "mbiarnes@redhat.com"

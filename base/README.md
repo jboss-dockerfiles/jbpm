@@ -21,9 +21,9 @@ Introduction
 
 The image contains:  
              
-* JBoss Wildfly 8.2.0.Final
-* jBPM Workbench 6.4.0.Final
-* jBPM Dashbuilder 6.4.0.Final
+* JBoss Wildfly 10.0.0.Final
+* jBPM Workbench 6.5.0.Final
+* jBPM Dashbuilder 6.5.0.Final
 
 This image provides the jBPM Workbench. It's intended to be extended so you can add your custom configurations.                 
 
@@ -200,7 +200,7 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console` and the context path for jBPM Dashbuilder web application is `dashbuilder`                  
-* jBPM Workbench version is `6.4.0.Final`
+* jBPM Workbench version is `6.5.0.Final`
 * jBPM Workbench requires running JBoss Wildfly using the `full` server profile
 * Examples and demos disabled by default (no internet connection required at startup)               
 * No users or roles are configured by default               
@@ -213,10 +213,9 @@ Notes
 Release notes
 --------------
 
-**6.4.0.Final**
+**6.5.0.Final**
 
-* Use Wildfly `8.2.0.Final`             
-* Upgrade app to version `latest` = (6.4.0.Final)         
+* Use Wildfly `10.0.0.Final`             
+* Upgrade app to version `latest` = (6.5.0.Final)         
 * Disabled examples (no internet connection required at startup)               
 * Added `KIE_DEMO` environment variable to disable examples and demos if host do not have internet connection             
-* Added missing initial artifact `org.guvnor:guvnor-asset-mgmt-project:6.4.0.Final:jar` into the M2 repository. See [BZ-1263738](https://bugzilla.redhat.com/show_bug.cgi?id=1263738)                   
