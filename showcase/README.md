@@ -132,8 +132,9 @@ In the case you need to create a persistent environment you can use an approach 
 By default, the internal GIT root directory for the workbench container is located at `/opt/jboss/wildfly/bin/.niogit`, so you can make this directory persistent in your docker host by running the container using a docker shared volumne as:                   
 
     # Use -v <SOURCE_FS_PATH>:<CONTAINER_FS_PATH>
-    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/bin/.niogit -d --name jbpm-workbench jboss/jbpm-workbench-showcase:latest
-    
+    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/bin/.niogit:Z -d --name jbpm-workbench jboss/jbpm-workbench-showcase:latest
+
+Please create `/home/myuser/wb_git` before running the docker container and ensure you have set the right permissions.     
 As the above command, now your workbench git repository will be persistent at your host filesystem's path `/home/myuser/wb_git`. So if you remove this container and start a new one just by using same shared volume, you'll find all your assets on the new workbench's container as well.                   
 
 **Using custom GIT root directory**               
@@ -165,12 +166,12 @@ Considering this showcase module as the base for this example, follow the next s
 
     docker build --rm -t jboss/jbpm-workbench-showcase:MY_TAG
 
-At this point, the default GIT root directory for the workbench will be located inside the Docker container at `/opt/jboss/wildfly/mygit`. So all your assets will be stored in the underlying git structure on this path.            
+At this point, the default GIT root directory for the workbench will be located inside the Docker container at `/opt/jboss/wildfly/mygit/`. So all your assets will be stored in the underlying git structure on this path.            
 
 In order to keep the git repositories between different containers you can just start the container by configuring a new host volume as:                
 
     # Use -v <SOURCE_FS_PATH>:<CONTAINER_FS_PATH>
-    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/mygit -d --name jbpm-workbench jboss/jbpm-workbench-showcase:MY_TAG
+    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/mygit:Z -d --name jbpm-workbench jboss/jbpm-workbench-showcase:MY_TAG
     
 As the above command, now your workbench git repository will be persistent at your local filesystem path `/home/myuser/wb_git`. So if you remove this container and start a new one just by using same shared volume, you'll find all your assets on the new workbench's container as well.                      
     
