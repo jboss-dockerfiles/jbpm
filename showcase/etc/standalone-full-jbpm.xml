@@ -2,7 +2,7 @@
 <!--
   CUSTOM MODIFCATIONS FOR jBPM Workbench
   ***************************************
-  - THIS FILE IS COPIED FROM DIRECTORY "wildfly-10.0.0.Final/standalone/configuration/standalone-full.xml" from "wildfly-10.0.0.Final.zip"
+  - THIS FILE IS COPIED FROM DIRECTORY "wildfly-10.1.0.Final/standalone/configuration/standalone-full.xml" from "wildfly-10.1.0.Final.zip"
   - THE CUSTOM MODIFICATIONS ON THIS FILE IN THIS IMAGE ARE MARKED WITH THE COMMENT'S TEXT "jBPM Workbench"
 -->
 <server xmlns="urn:jboss:domain:4.0">
@@ -365,11 +365,13 @@
             <security-domains>
                 <security-domain name="other" cache-type="default">
                     <authentication>
-                        <!-- jBPM Workbench - CUSTOM LOGIN MODULE -->
-                        <login-module code="UsersRoles" flag="required">
-                            <module-option name="usersProperties" value="${jboss.server.config.dir}/jbpm-users.properties"/>
-                            <module-option name="rolesProperties" value="${jboss.server.config.dir}/jbpm-roles.properties"/>
+                        <login-module code="Remoting" flag="optional">
+                            <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
+                        <login-module code="RealmDirect" flag="required">
+                            <module-option name="password-stacking" value="useFirstPass"/>
+                        </login-module>
+                        <login-module code="org.kie.security.jaas.KieLoginModule" flag="optional" module="deployment.jbpm-console.war"/>
                     </authentication>
                 </security-domain>
                 <security-domain name="jboss-web-policy" cache-type="default">
@@ -409,7 +411,6 @@
                     <filter-ref name="server-header"/>
                     <filter-ref name="x-powered-by-header"/>
                     <!-- jBPM Workbench - Add SSO between local applications (jbpm workbench and jbpm dashbuilder). -->
-                    <single-sign-on path="/"/>
                 </host>
             </server>
             <servlet-container name="default">
