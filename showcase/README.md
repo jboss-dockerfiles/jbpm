@@ -13,6 +13,7 @@ Table of contents
 * GIT internal repository access
 * Persistent configuration
 * Experimenting
+* Troubleshooting
 * Notes
 * Release notes
 
@@ -43,10 +44,6 @@ Once container and web applications started, you can navigate to it using one of
 
         http://localhost:8080/jbpm-console
 
-Please note that in this image the examples and demos are enabled by default, so you **need external connection to [GitHub](https://github.com/)**. 
-If your container runs without internet connection, please set `KIE_DEMO` the environment variable to value `false` as:                             
-
-    docker run -p 8080:8080 -p 8001:8001 -e KIE_DEMO=false -d --name jbpm-workbench jboss/jbpm-workbench-showcase:latest
 
 Users and roles
 ----------------
@@ -180,20 +177,21 @@ To spin up a shell in one of the containers try:
 
 You can then noodle around the container and run stuff & look at files etc.
 
-Troubleshoot
-------------
+Troubleshooting
+---------------
 
 If the application can't be accessed via browser (http://localhost:8080/jbpm-console) please run the container in [host network mode](https://docs.docker.com/engine/reference/run/#network-settings). It seems that latest docker versions have some restrictions on the networking side. Using an older daemon version this does not happen.
 Try:
 
-    docker run .... --network="host .."
+    docker run ... --network="host" ...
 
 Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console`                
 * jBPM Workbench version is `7.0.0.Final`
-* jBPM Workbench requires running JBoss Wildfly using the `full` server profile       
+* jBPM Workbench requires running JBoss Wildfly using the `full` server profile 
+* Examples and demos are always available, also when not connected to internet      
 * No support for clustering                
 * Use of embedded H2 database server by default               
 * No support for Wildfly domain mode, just standalone mode                    
