@@ -28,8 +28,7 @@ The image contains:
 This image inherits from `jboss/jbpm-workbench:latest` and provides some additional configurations:
 
 * Default users and roles                                                       
-* Some examples            
-* Single Sign On configuration for jBPM Workbench and jBPM Dashbuilder                   
+* Some examples
 
 This is a **ready to run Docker image for jBPM Workbench**. Just run it and try the jBPM Workbench!                       
 
