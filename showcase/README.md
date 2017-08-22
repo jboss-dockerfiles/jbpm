@@ -23,7 +23,7 @@ Introduction
 The image contains:               
 
 * JBoss Wildfly 10.1.0.Final
-* jBPM Workbench 7.1.0.Final
+* jBPM Workbench 7.2.0.Final
 
 This image inherits from `jboss/jbpm-workbench:latest` and provides some additional configurations:
 
@@ -189,7 +189,7 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console`                
-* jBPM Workbench version is `7.1.0.Final`
+* jBPM Workbench version is `7.2.0.Final`
 * jBPM Workbench requires running JBoss Wildfly using the `full` server profile 
 * Examples and demos are always available, also when not connected to internet      
 * No support for clustering                
@@ -201,7 +201,7 @@ Notes
 Release notes
 --------------
 
-**7.1.0.Final**
+**7.2.0.Final**
 
 * Use Wildfly `10.1.0.Final` 
-* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `7.1.0.Final`                     
+* See release notes for [jBPM Workbench](https://hub.docker.com/r/jboss/jbpm-workbench/) version `7.2.0.Final`
