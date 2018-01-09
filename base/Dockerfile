@@ -14,7 +14,7 @@ ENV KIE_REPOSITORY https://repository.jboss.org/nexus/content/groups/public-jbos
 ENV KIE_VERSION 7.5.0.Final
 ENV KIE_CLASSIFIER wildfly10
 ENV KIE_CONTEXT_PATH jbpm-console
-ENV JAVA_OPTS -Xms256m -Xmx512m
+ENV JAVA_OPTS -Xms256m -Xmx512m -Djava.net.preferIPv4Stack=true
 ENV KIE_SERVER_PROFILE standalone-full
 
 ####### JBPM-WB ############
