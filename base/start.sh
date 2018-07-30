@@ -45,7 +45,7 @@ if [ -f docker.pid ]; then
     rm -f docker.pid
 fi
 
-# Start the jboss BPM Suite docker container
+# Start the JBoss jBPM Workbench docker container
 echo "Starting $CONTAINER_NAME docker container using:"
 echo "** Container name: $CONTAINER_NAME"
 image_jbpm_workbench=$(docker run -P -d --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG)

@@ -1,7 +1,7 @@
 jBPM Workbench Showcase Docker image
 =====================================
 
-JBoss jBPM Workbench Showcase [Docker](http://docker.io/) image.
+JBoss jBPM Server Full [Docker](http://docker.io/) image.
 
 Table of contents
 ------------------
@@ -9,6 +9,7 @@ Table of contents
 * Introduction
 * Usage
 * Users and roles
+* Database
 * Logging
 * GIT internal repository access
 * Persistent configuration
@@ -24,11 +25,9 @@ The image contains:
 
 * JBoss Wildfly 11.0.0.Final
 * jBPM Workbench 7.9.0.Final
-
-This image inherits from `jboss/jbpm-workbench:latest` and provides some additional configurations:
-
-* Default users and roles
-* Some examples
+* KIE Server 7.9.0.Final
+* jBPM Case Management Showcase 7.9.0.Final
+* jBPM Service Repository 7.9.0.Final
 
 This is a **ready to run Docker image for jBPM Workbench**. Just run it and try the jBPM Workbench!
 
@@ -36,13 +35,12 @@ Usage
 -----
 
 To run a container:
-    
-    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-workbench jboss/jbpm-workbench-showcase:latest
+
+    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-server-full jboss/jbpm-server-full:latest
 
 Once container and web applications started, you can navigate to it using one of the users described in section `Users and roles`, using the following URL:
 
-        http://localhost:8080/jbpm-console
-
+    http://localhost:8080/jbpm-console
 
 Users and roles
 ----------------
@@ -51,12 +49,46 @@ This showcase image contains default users and roles:
 
     USER        PASSWORD    ROLE
     *************************************************
-    admin       admin       admin,analyst,kiemgmt
-    krisv       krisv       admin,analyst
-    john        john        analyst,Accounting,PM
-    sales-rep   sales-rep   analyst,sales
-    katy        katy        analyst,HR
-    jack        jack        analyst,IT
+    wbadmin     wbadmin     admin,analyst,user,process-admin,kie-server
+    krisv       krisv       admin,analyst,user,process-admin,kie-server
+    john        john        analyst,Accounting,PM,kie-server
+    sales-rep   sales-rep   analyst,sales,kie-server
+    katy        katy        analyst,HR,kie-server
+    jack        jack        analyst,IT,kie-server
+
+Database
+--------
+
+This image supports using H2, MySQL, PostgreSQL as the database. By default with H2 database with file storage - located under <JBOSS_HOME>/standalone/data/jbpm-db.
+The container configuration allows you to switch to either MySQL or PostgreSQL database via a set of environment variables.
+Alternatively, you can use the provided Docker compose examples to get started using an alternative database.
+
+## Docker compose examples
+
+### MySQL Example
+
+    docker-compose -f docker-compose-examples/jbpm-full-mysql.yml up
+
+### PostgreSQL Example
+
+    docker-compose -f docker-compose-examples/jbpm-full-postgres.yml up
+
+## Environment variables
+
+* `JBPM_DB_DRIVER` = Specify which database driver to use. Allows either: 'h2', 'mysql' or 'postgres'. Default: 'h2'. 
+* `JBPM_DB_HOST` = Specify hostname of the database. Default: 'localhost'  
+* `JBPM_DB_PORT` = Specify port of the database. Default: '3306' if using 'mysql' driver or '5432' in case of 'postgres'.
+* `JBPM_DB_NAME` = Specify name of the database to use. Default: 'jbpm'
+* `JBPM_DB_USER` = Specify user to use to authenticate to the database. Default: 'jbpm'
+* `JBPM_DB_PASSWORD` = Specify user's password to use to authenticate to the database. Default: 'jbpm'
+
+### MySQL Example
+
+    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-server-full -e JBPM_DB_DRIVER=mysql -e JBPM_DB_HOST=172.17.0.1 jboss/jbpm-server-full:latest
+
+### PostgreSQL Example
+
+    docker run -p 8080:8080 -p 8001:8001 -d --name jbpm-server-full -e JBPM_DB_DRIVER=postgres -e JBPM_DB_HOST=172.17.0.1 jboss/jbpm-server-full:latest
 
 Logging
 -------
@@ -69,7 +101,7 @@ You can attach the container by running:
 
     docker attach <container_id>
 
-The jBPM Workbench web application logs can be found inside the container at path:
+The jBPM Workbench and Kie Server web applications logs can be found inside the container at path:
 
     /opt/jboss/wildfly/standalone/log/server.log
 
@@ -84,7 +116,9 @@ The workbench stores all the project artifacts in an internal GIT repository. By
 
 As an example, if you import the `IT_Orders` sample project, you can clone it by running:
  
-    git clone ssh://admin@localhost:8001/MySpace/IT_Orders
+    git clone ssh://wbadmin@localhost:8001/MySpace/IT_Orders
+    
+NOTE: Users and password for ssh access are the same that for the web application users defined at the realm files.    
 
 By default, the GIT repository is created when the application starts for first time at `$WORKING_DIR/.niogit`, considering `$WORKING_DIR` as the current directory where the application server is started.
 
@@ -94,30 +128,12 @@ You can specify a custom repository location by setting the following Java syste
 
 NOTE: This directory can be shared with your docker host and with another containers using shared volumes when running the container, if you need so.
 
-If necessary you can make GIT repositories available from outside localhost using the following Java system property:
- 
-        -org.uberfire.nio.git.ssh.host=0.0.0.0
-        
-You can set this Java system properties permanent by adding the following lines in your `standalone-full.xml` file as:
- 
-        <system-properties>
-          <!-- Custom repository location. -->
-          <property name="org.uberfire.nio.git.dir" value="/home/youruser/some/path"/>
-          <!-- Make GIT repositories available from outside localhost. -->
-          <property name="org.uberfire.nio.git.ssh.host" value="0.0.0.0"/>
-        </system-properties>
-
-    
-NOTE: Users and password for ssh access are the same that for the web application users defined at the realm files.
 
 Persistent configuration
 ------------------------
 
-As Docker defaults, once a container has been removed, the data within that container is removed as well.
+As Docker defaults, once a container has been removed, the data within that container is removed as well. That includes any assets you created and projects that you deployed to the Kie Server using the local Maven repository.
 
-At first glance this should not imply any issues as the assets authored on your workbench containers are not lost if you don't remove the container, you can stop and restart it 
-as many times as you need, and have different kie execution server container's consuming those assets, the problem comes if you need to remove and create new workbench containers.
-          
 In the case you need to create a persistent environment you can use an approach based on [Docker Volumes](https://docs.docker.com/engine/tutorials/dockervolumes/). Here are two ways of doing it.
 
 **Using default GIT root directory**
@@ -125,46 +141,15 @@ In the case you need to create a persistent environment you can use an approach 
 By default, the internal GIT root directory for the workbench container is located at `/opt/jboss/wildfly/bin/.niogit`, so you can make this directory persistent in your docker host by running the container using a docker shared volume as:
 
     # Use -v <SOURCE_FS_PATH>:<CONTAINER_FS_PATH>
-    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/bin/.niogit:Z -d --name jbpm-workbench jboss/jbpm-workbench-showcase:latest
+    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/bin/.niogit:Z -d --name jbpm-server-full jboss/jbpm-server-full:latest
 
 Please create `/home/myuser/wb_git` before running the docker container and ensure you have set the right permissions.
 As the above command, now your workbench git repository will be persistent at your host filesystem's path `/home/myuser/wb_git`. So if you remove this container and start a new one just by using same shared volume, you'll find all your assets on the new workbench's container as well.
 
-**Using custom GIT root directory**
-
-Considering this showcase module as the base for this example, follow the next steps:
-
-1.- Edit the [standalone-full-jbpm.xml](./etc/standalone-full-jbpm.xml) and change the default GIT repository location for your favourite one:
- 
-    <system-properties>
-        <property name="org.kie.demo" value="${org.kie.demo:true}"/>
-        <property name="org.kie.example" value="${org.kie.example:true}"/>
-        <property name="designerdataobjects" value="${designerdataobjects:false}"/>
-        
-        <!-- Make GIT repositories root directory at /opt/jboss/wildfly/mygit. -->
-        <property name="org.uberfire.nio.git.dir" value="/opt/jboss/wildfly/mygit"/>
-        
-        <!-- Make GIT repositories available from outside localhost. -->
-        <property name="org.uberfire.nio.git.ssh.host" value="0.0.0.0"/>
-    </system-properties>
-
-2.- Edit the [Dockerfile](./Dockerfile) and add these lines:
- 
-    USER root
-    RUN mkdir -p $JBOSS_HOME/mygit
-    RUN chown jboss:jboss $JBOSS_HOME/mygit
-    USER jboss
-    
-3.- Create your Docker image:
-
-    docker build --rm -t jboss/jbpm-workbench-showcase:MY_TAG
-
-At this point, the default GIT root directory for the workbench will be located inside the Docker container at `/opt/jboss/wildfly/mygit/`. So all your assets will be stored in the underlying git structure on this path.
-
 In order to keep the git repositories between different containers you can just start the container by configuring a new host volume as:
 
     # Use -v <SOURCE_FS_PATH>:<CONTAINER_FS_PATH>
-    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/mygit:Z -d --name jbpm-workbench jboss/jbpm-workbench-showcase:MY_TAG
+    docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/.niogit:Z -d --name jbpm-workbench jboss/jbpm-workbench-showcase:MY_TAG
     
 As the above command, now your workbench git repository will be persistent at your local filesystem path `/home/myuser/wb_git`. So if you remove this container and start a new one just by using same shared volume, you'll find all your assets on the new workbench's container as well.
     
@@ -173,7 +158,7 @@ Experimenting
 
 To spin up a shell in one of the containers try:
 
-    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-workbench-showcase:latest /bin/bash
+    docker run -t -i -p 8080:8080 -p 8001:8001 jboss/jbpm-server-full:latest /bin/bash
 
 You can then noodle around the container and run stuff & look at files etc.
 
@@ -188,9 +173,15 @@ Try:
 Notes
 -----
 
-* The context path for jBPM Workbench web application is `jbpm-console`
 * jBPM Workbench version is `7.9.0.Final`
-* jBPM Workbench requires running JBoss Wildfly 11.0.0 using the `full` server profile
+* The context path for jBPM Workbench web application is `jbpm-console`
+* KIE Server version is `7.9.0.Final`
+* The context path for KIE Server web application is `kie-server`
+* jBPM Case Management Showcase version is `7.9.0.Final`
+* The context path for jBPM Case Management Showcase web application is `jbpm-casemgmt`
+* jBPM Service Repository version is `7.9.0.Final`
+* The context path for jBPM Service Repository web application is `repository`
+* jBPM Server Full requires running JBoss Wildfly 11.0.0 using the `full` server profile
 * Examples and demos are always available, also when not connected to internet
 * No support for clustering
 * Use of embedded H2 database server by default
