@@ -1,5 +1,5 @@
 ###########################################################################
-# Dockerfile that provides the image for JBoss jBPM Workbench 7.9.0.Final
+# Dockerfile that provides the image for JBoss jBPM Server Full 7.9.0.Final
 ###########################################################################
 
 ####### BASE ############
@@ -10,24 +10,24 @@ MAINTAINER "Michael Biarnes Kiefer" "mbiarnes@redhat.com"
 
 ####### ENVIRONMENT ############
 ENV JBOSS_BIND_ADDRESS 0.0.0.0
-ENV KIE_REPOSITORY https://repository.jboss.org/nexus/content/groups/public-jboss
+ENV KIE_REPOSITORY https://download.jboss.org/jbpm/release
 ENV KIE_VERSION 7.9.0.Final
 ENV KIE_CLASSIFIER wildfly11
 ENV KIE_CONTEXT_PATH jbpm-console
-ENV JAVA_OPTS -Xms256m -Xmx1024m -Djava.net.preferIPv4Stack=true
-ENV KIE_SERVER_PROFILE standalone-full
+ENV EXTRA_OPTS -Dorg.jbpm.ht.admin.group=admin -Dorg.uberfire.nio.git.ssh.host=$JBOSS_BIND_ADDRESS
 
 ####### JBPM-WB ############
-RUN curl -o $HOME/$KIE_CONTEXT_PATH.war $KIE_REPOSITORY/org/kie/kie-wb/$KIE_VERSION/kie-wb-$KIE_VERSION-$KIE_CLASSIFIER.war && \
-unzip -q $HOME/$KIE_CONTEXT_PATH.war -d $JBOSS_HOME/standalone/deployments/$KIE_CONTEXT_PATH.war &&  \
-touch $JBOSS_HOME/standalone/deployments/$KIE_CONTEXT_PATH.war.dodeploy &&  \ 
-rm -rf $HOME/$KIE_CONTEXT_PATH.war
+RUN curl -o $HOME/jbpm-server-dist.zip $KIE_REPOSITORY/$KIE_VERSION/jbpm-server-$KIE_VERSION-dist.zip && \
+unzip -o -q jbpm-server-dist.zip -d $JBOSS_HOME &&  \
+rm -rf $HOME/jbpm-server-dist.zip
 
 ####### CONFIGURATION ############
 USER root
 ADD etc/start_jbpm-wb.sh $JBOSS_HOME/bin/start_jbpm-wb.sh
+ADD etc/update_db_config.sh $JBOSS_HOME/bin/update_db_config.sh
 RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/*
 RUN chown jboss:jboss $JBOSS_HOME/bin/start_jbpm-wb.sh
+RUN chown jboss:jboss $JBOSS_HOME/bin/update_db_config.sh
 
 ####### CUSTOM JBOSS USER ############
 # Switchback to jboss user
