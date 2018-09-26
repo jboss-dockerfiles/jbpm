@@ -24,10 +24,10 @@ Introduction
 The image contains:
 
 * JBoss Wildfly 11.0.0.Final
-* jBPM Workbench 7.10.0.Final
-* KIE Server 7.10.0.Final
-* jBPM Case Management Showcase 7.10.0.Final
-* jBPM Service Repository 7.10.0.Final
+* jBPM Workbench 7.11.0.Final
+* KIE Server 7.11.0.Final
+* jBPM Case Management Showcase 7.11.0.Final
+* jBPM Service Repository 7.11.0.Final
 
 This is a **ready to run Docker image for jBPM Workbench**. Just run it and try the jBPM Workbench!
 
@@ -173,13 +173,13 @@ Try:
 Notes
 -----
 
-* jBPM Workbench version is `7.10.0.Final`
+* jBPM Workbench version is `7.11.0.Final`
 * The context path for jBPM Workbench web application is `jbpm-console`
-* KIE Server version is `7.10.0.Final`
+* KIE Server version is `7.11.0.Final`
 * The context path for KIE Server web application is `kie-server`
-* jBPM Case Management Showcase version is `7.10.0.Final`
+* jBPM Case Management Showcase version is `7.11.0.Final`
 * The context path for jBPM Case Management Showcase web application is `jbpm-casemgmt`
-* jBPM Service Repository version is `7.10.0.Final`
+* jBPM Service Repository version is `7.11.0.Final`
 * The context path for jBPM Service Repository web application is `repository`
 * jBPM Server Full requires running JBoss Wildfly 11.0.0 using the `full` server profile
 * Examples and demos are always available, also when not connected to internet
@@ -192,6 +192,6 @@ Notes
 Release notes
 --------------
 
-**7.10.0.Final**
+**7.11.0.Final**
 
-* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.10.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
+* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.11.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)

@@ -22,7 +22,7 @@ Introduction
 The image contains:  
              
 * JBoss Wildfly 11.0.0.Final
-* jBPM Workbench 7.10.0.Final
+* jBPM Workbench 7.11.0.Final
 
 This image provides the jBPM Workbench. It's intended to be extended so you can add your custom configurations.                 
 
@@ -217,7 +217,7 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console`                  
-* jBPM Workbench version is `7.10.0.Final`
+* jBPM Workbench version is `7.11.0.Final`
 * jBPM Workbench requires running JBoss Wildfly 11.0.0.Final using the `full` server profile
 * No users or roles are configured by default               
 * No support for clustering                
@@ -229,6 +229,6 @@ Notes
 Release notes
 --------------
 
-**7.10.0.Final**
+**7.11.0.Final**
 
-* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.10.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
+* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.11.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
