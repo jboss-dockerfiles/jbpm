@@ -14,6 +14,8 @@ ENV KIE_REPOSITORY https://download.jboss.org/jbpm/release
 ENV KIE_VERSION 7.12.0.Final
 ENV KIE_CLASSIFIER wildfly11
 ENV KIE_CONTEXT_PATH jbpm-console
+ENV KIE_SERVER_ID sample-server
+ENV KIE_SERVER_LOCATION http://localhost:8080/kie-server/services/rest/server
 ENV EXTRA_OPTS -Dorg.jbpm.ht.admin.group=admin -Dorg.uberfire.nio.git.ssh.host=$JBOSS_BIND_ADDRESS
 
 ####### JBPM-WB ############
@@ -28,6 +30,8 @@ ADD etc/update_db_config.sh $JBOSS_HOME/bin/update_db_config.sh
 RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/*
 RUN chown jboss:jboss $JBOSS_HOME/bin/start_jbpm-wb.sh
 RUN chown jboss:jboss $JBOSS_HOME/bin/update_db_config.sh
+RUN sed -i '/<property name="org.kie.server.location" value="http:\/\/localhost:8080\/kie-server\/services\/rest\/server"\/>/d' $JBOSS_HOME/standalone/configuration/standalone.xml
+RUN sed -i '/<property name="org.kie.server.id" value="sample-server"\/>/d' $JBOSS_HOME/standalone/configuration/standalone.xml
 
 ####### CUSTOM JBOSS USER ############
 # Switchback to jboss user

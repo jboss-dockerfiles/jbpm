@@ -13,6 +13,7 @@ Table of contents
 * Logging
 * GIT internal repository access
 * Persistent configuration
+* Environment variables
 * Experimenting
 * Troubleshooting
 * Notes
@@ -152,6 +153,12 @@ In order to keep the git repositories between different containers you can just 
     docker run -p 8080:8080 -p 8001:8001 -v /home/myuser/wb_git:/opt/jboss/wildfly/.niogit:Z -d --name jbpm-workbench jboss/jbpm-workbench-showcase:MY_TAG
     
 As the above command, now your workbench git repository will be persistent at your local filesystem path `/home/myuser/wb_git`. So if you remove this container and start a new one just by using same shared volume, you'll find all your assets on the new workbench's container as well.
+
+Environment variables
+---------------------
+
+* `KIE_SERVER_ID` = Specify the identifier to be used by the Kie Server configuration. Default: 'sample-server'
+* `KIE_SERVER_LOCATION` = Specify the public url for the Kie Server. Default: 'http://localhost:8080/kie-server/services/rest/server'
     
 Experimenting
 -------------
