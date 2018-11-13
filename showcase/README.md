@@ -22,8 +22,8 @@ Introduction
 
 The image contains:
 
-* JBoss Wildfly 11.0.0.Final
-* jBPM Workbench 7.13.0.Final
+* JBoss Wildfly 14.0.1.Final
+* jBPM Workbench 7.14.0.Final
 
 This image inherits from `jboss/jbpm-workbench:latest` and provides some additional configurations:
 
@@ -189,8 +189,8 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console`
-* jBPM Workbench version is `7.13.0.Final`
-* jBPM Workbench requires running JBoss Wildfly 11.0.0 using the `full` server profile
+* jBPM Workbench version is `7.14.0.Final`
+* jBPM Workbench requires running JBoss Wildfly 14.0.1 using the `full` server profile
 * Examples and demos are always available, also when not connected to internet
 * No support for clustering
 * Use of embedded H2 database server by default
@@ -201,6 +201,6 @@ Notes
 Release notes
 --------------
 
-**7.13.0.Final**
+**7.14.0.Final**
 
-* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.13.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
+* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.14.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
