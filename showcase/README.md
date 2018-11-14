@@ -22,8 +22,8 @@ Introduction
 
 The image contains:
 
-* JBoss Wildfly 11.0.0.Final
-* jBPM Workbench 7.13.0.Final
+* JBoss Wildfly 14.0.1.Final
+* jBPM Workbench 7.14.0.Final
 
 This image inherits from `jboss/jbpm-workbench:latest` and provides some additional configurations:
 
@@ -134,19 +134,14 @@ As the above command, now your workbench git repository will be persistent at yo
 
 Considering this showcase module as the base for this example, follow the next steps:
 
-1.- Edit the [standalone-full-jbpm.xml](./etc/standalone-full-jbpm.xml) and change the default GIT repository location for your favourite one:
+1.- Edit the [jbpm-custom.cli](./etc/jbpm-custom.cli) and uncomment the default GIT repository location for your favourite one:
  
-    <system-properties>
-        <property name="org.kie.demo" value="${org.kie.demo:true}"/>
-        <property name="org.kie.example" value="${org.kie.example:true}"/>
-        <property name="designerdataobjects" value="${designerdataobjects:false}"/>
-        
-        <!-- Make GIT repositories root directory at /opt/jboss/wildfly/mygit. -->
-        <property name="org.uberfire.nio.git.dir" value="/opt/jboss/wildfly/mygit"/>
-        
-        <!-- Make GIT repositories available from outside localhost. -->
-        <property name="org.uberfire.nio.git.ssh.host" value="0.0.0.0"/>
-    </system-properties>
+    # Make GIT repositories root directory at /opt/jboss/wildfly/mygit.
+    # if (outcome != success) of /system-property=org.uberfire.nio.git.dir:read-resource
+    # 	/system-property=org.uberfire.nio.git.dir:add(value="/opt/jboss/wildfly/mygit")
+    # else
+    #     /system-property=org.uberfire.nio.git.dir:write-attribute(name=value,value="/opt/jboss/wildfly/mygit")
+    # end-if
 
 2.- Edit the [Dockerfile](./Dockerfile) and add these lines:
  
@@ -189,8 +184,8 @@ Notes
 -----
 
 * The context path for jBPM Workbench web application is `jbpm-console`
-* jBPM Workbench version is `7.13.0.Final`
-* jBPM Workbench requires running JBoss Wildfly 11.0.0 using the `full` server profile
+* jBPM Workbench version is `7.14.0.Final`
+* jBPM Workbench requires running JBoss Wildfly 14.0.1 using the `full` server profile
 * Examples and demos are always available, also when not connected to internet
 * No support for clustering
 * Use of embedded H2 database server by default
@@ -201,6 +196,6 @@ Notes
 Release notes
 --------------
 
-**7.13.0.Final**
+**7.14.0.Final**
 
-* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.13.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
+* See release notes for [jBPM](http://docs.jboss.org/jbpm/release/7.14.0.Final/jbpm-docs/html_single/#_jbpmreleasenotes)
