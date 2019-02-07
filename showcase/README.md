@@ -41,7 +41,7 @@ To run a container:
 
 Once container and web applications started, you can navigate to it using one of the users described in section `Users and roles`, using the following URL:
 
-        http://localhost:8080/jbpm-console
+        http://localhost:8080/business-central
 
 
 Users and roles
@@ -175,7 +175,7 @@ You can then noodle around the container and run stuff & look at files etc.
 Troubleshooting
 ---------------
 
-If the application can't be accessed via browser (http://localhost:8080/jbpm-console) please run the container in [host network mode](https://docs.docker.com/engine/reference/run/#network-settings). It seems that latest docker versions have some restrictions on the networking side. Using an older daemon version this does not happen.
+If the application can't be accessed via browser (http://localhost:8080/business-central) please run the container in [host network mode](https://docs.docker.com/engine/reference/run/#network-settings). It seems that latest docker versions have some restrictions on the networking side. Using an older daemon version this does not happen.
 Try:
 
     docker run ... --network="host" ...
@@ -183,7 +183,7 @@ Try:
 Notes
 -----
 
-* The context path for jBPM Workbench web application is `jbpm-console`
+* The context path for jBPM Workbench web application is `business-central`
 * jBPM Workbench version is `7.15.0.Final`
 * jBPM Workbench requires running JBoss Wildfly 14.0.1 using the `full` server profile
 * Examples and demos are always available, also when not connected to internet

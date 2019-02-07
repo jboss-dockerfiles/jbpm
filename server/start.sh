@@ -56,7 +56,7 @@ echo $image_jbpm_workbench > docker.pid
 echo ""
 echo "Server starting in $ip_jbpm_workbench"
 echo "You can access the server root context in http://$ip_jbpm_workbench:8080"
-echo "jBPM Workbench is running at http://$ip_jbpm_workbench:8080/jbpm-console"
+echo "jBPM Workbench is running at http://$ip_jbpm_workbench:8080/business-central"
 echo "KIE Server Swagger documentation is running at http://$ip_jbpm_workbench:8080/kie-server/docs"
 echo "jBPM Case Management Showcase is running at http://$ip_jbpm_workbench:8080/jbpm-casemgmt"
 echo "jBPM Service Repository is running at http://$ip_jbpm_workbench:8080/repository"

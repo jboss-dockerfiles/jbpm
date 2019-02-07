@@ -10,8 +10,8 @@ services:
     image: jboss/kie-server-showcase
     environment:
       KIE_SERVER_LOCATION: http://kie-server:8080/kie-server/services/rest/server
-      KIE_SERVER_CONTROLLER: http://business-central:8080/jbpm-console/rest/controller
-      KIE_MAVEN_REPO: http://business-central:8080/jbpm-console/maven2
+      KIE_SERVER_CONTROLLER: http://business-central:8080/business-central/rest/controller
+      KIE_MAVEN_REPO: http://business-central:8080/business-central/maven2
     ports:
       - 8180:8080
     depends_on:
