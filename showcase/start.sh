@@ -55,6 +55,6 @@ echo $image_jbpm_workbench > docker.pid
 echo ""
 echo "Server starting in $ip_jbpm_workbench"
 echo "You can access the server root context in http://$ip_jbpm_workbench:8080"
-echo "JBoss jBPM Workbench is running at http://$ip_jbpm_workbench:8080/jbpm-console"
+echo "JBoss jBPM Workbench is running at http://$ip_jbpm_workbench:8080/business-central"
 
 exit 0

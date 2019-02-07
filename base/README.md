@@ -37,7 +37,7 @@ To run a container:
 
 Once container and web applications started, you can navigate into the jBPM Workbench at:
 
-    http://localhost:8080/jbpm-console
+    http://localhost:8080/business-central
 
 Users and roles
 ----------------
@@ -188,7 +188,7 @@ These are the steps to create your custom users and roles by using realm files i
             <login-module code="RealmDirect" flag="required">
               <module-option name="password-stacking" value="useFirstPass"/>
             </login-module>
-            <login-module code="org.kie.security.jaas.KieLoginModule" flag="optional" module="deployment.jbpm-console.war"/>
+            <login-module code="org.kie.security.jaas.KieLoginModule" flag="optional" module="deployment.business-central.war"/>
           </authentication>
         </security-domain>
 
@@ -207,7 +207,7 @@ You can then noodle around the container and run stuff & look at files etc.
 Troubleshoot
 ------------
 
-If the application can't be accessed via browser (http://localhost:8080/jbpm-console) please run the container in [host network mode](https://docs.docker.com/engine/reference/run/#network-settings). It seems that latest docker versions have some restrictions on the networking side. Using an older daemon version this does not happen. 
+If the application can't be accessed via browser (http://localhost:8080/business-central) please run the container in [host network mode](https://docs.docker.com/engine/reference/run/#network-settings). It seems that latest docker versions have some restrictions on the networking side. Using an older daemon version this does not happen. 
 Try:
     
     docker run .... --network="host .."
@@ -216,7 +216,7 @@ Try:
 Notes
 -----
 
-* The context path for jBPM Workbench web application is `jbpm-console`                  
+* The context path for jBPM Workbench web application is `business-central`
 * jBPM Workbench version is `7.15.0.Final`
 * jBPM Workbench requires running JBoss Wildfly 14.0.1.Final using the `full` server profile
 * No users or roles are configured by default               
