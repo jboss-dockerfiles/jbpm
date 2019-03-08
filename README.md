@@ -19,6 +19,6 @@ It provides some custom configurations and default users and roles to try and te
 **jBPM Server Full distribution**
 
 Provides a **ready to run Docker image for jBPM server full** with all necessary configurations between services.
-Deployed applications include: jBPM Workbench, Kie Server, jBPM Case Management Showcase and jBPM Service Repository.
+Deployed applications include: jBPM Workbench, Kie Server and jBPM Case Management Showcase.
 For more information, please visit the [Getting Started Guide](http://jbpm.org/learn/gettingStarted.html)
 It provides some custom configurations and default users and roles to try and test the workbench.

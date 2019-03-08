@@ -28,7 +28,6 @@ The image contains:
 * jBPM Workbench 7.17.0.Final
 * KIE Server 7.17.0.Final
 * jBPM Case Management Showcase 7.17.0.Final
-* jBPM Service Repository 7.17.0.Final
 
 This is a **ready to run Docker image for jBPM Workbench**. Just run it and try the jBPM Workbench!
 
@@ -186,8 +185,6 @@ Notes
 * The context path for KIE Server web application is `kie-server`
 * jBPM Case Management Showcase version is `7.17.0.Final`
 * The context path for jBPM Case Management Showcase web application is `jbpm-casemgmt`
-* jBPM Service Repository version is `7.17.0.Final`
-* The context path for jBPM Service Repository web application is `repository`
 * jBPM Server Full requires running JBoss Wildfly 14.0.1 using the `full` server profile
 * Examples and demos are always available, also when not connected to internet
 * No support for clustering
